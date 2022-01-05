@@ -3,7 +3,7 @@ w261-s22-Anand-Patel-95 created by GitHub Classroom
 
 A repo for Anand Patel's HW assignments for MIDS W261, Spring 2022.
 
-## Structure
+## Repo Structure
 
 ```
 <repo root>
