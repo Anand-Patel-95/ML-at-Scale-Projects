@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 This script reads lines from STDIN and returns a list of
-all words an the count of how many times they occurred.
+all words and the count of how many times they occurred.
 
 INPUT:
     a text file
@@ -32,9 +32,13 @@ for line in sys.stdin:
     words = re.findall(r'[a-z]+', line.lower())
 
 ############ YOUR CODE HERE #########
-
-
-
+    # add words to the counts dict
+    for word in words:
+        counts[word] += 1
+        
+# after all lines processed, print out word counts
+for k, v in counts.items():
+    print(f"{k}\t{v}")
 
 
 
