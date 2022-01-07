@@ -36,13 +36,14 @@ usage()
     echo NOTE: if no reducer is supplied, we will simply combine the output files.
 }
 
-
+# echo "test"
 # print the usage message if this script is called without required args
 if [ $# -lt 3 ]
   then
     usage
     exit 1
 fi
+
 
 # collect the arguments
 m=$1
@@ -54,13 +55,15 @@ mapper=$3
 # 'wc' determines the number of lines in the data
 # 'perl -pe' regex strips the piped wc output to a number
 linesindata=`wc -l $data | perl -pe 's/^.*?(\d+).*?$/$1/'`
+# echo linesindata
 
 # determine the lines per chunk for the desired number of processes
 linesinchunk=`echo "$linesindata/$m+1" | bc`
+# echo linesinchunk
 
 # split the original file into chunks by line
 split -l $linesinchunk $data $data.chunk.
-
+# echo split original files into chunks
 
 ############## STEP 2: Process in "Parallel" #################
 for datachunk in $data.chunk.*; do
