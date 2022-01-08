@@ -96,8 +96,16 @@ if [ $# -eq 4 ]
     reducer=$4
     ################ YOUR CODE HERE #############
     #Q6c
-
-
+    # cat the parallel outputs into a temporary file
+    cat $countfiles > $data.outputTemp
+    
+    # count all lines in the temporary file using reducer
+    ./$reducer < $data.outputTemp > $data.output
+    
+    # cat $countfiles | ./$reducer > $data.output
+    
+    # clean up the temporary output file
+    \rm $data.outputTemp
     ################# (END YOUR CODE)###########
 fi
 
