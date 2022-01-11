@@ -99,7 +99,7 @@ if [ $# -eq 4 ]
     # Method1: count all lines in the countfiles using reducer
     cat $countfiles | ./$reducer > $data.output
     
-    # Method 2: cat the parallel outputs into a temporary file
+    # IGNORE Method 2: cat the parallel outputs into a temporary file
     # cat $countfiles > $data.outputTemp
     
     # count all lines in the temporary file using reducer

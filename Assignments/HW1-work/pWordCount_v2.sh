@@ -65,9 +65,10 @@ for datachunk in $data.chunk.*; do
     ################ YOUR CODE HERE #############
     # Modify the line from pWordCount_v1.sh, so that  
     # each chunk is individually sorted. 
-
-    # sort -k1,1 $datachunk | ./$mapper > $datachunk.counts &
+    
     ./$mapper  < $datachunk | sort -k1,1 > $datachunk.counts &
+    
+    # sort -k1,1 $datachunk | ./$mapper > $datachunk.counts &
     ################# (END YOUR CODE)###########
     
 done
