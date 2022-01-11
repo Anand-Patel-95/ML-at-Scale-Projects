@@ -21,7 +21,7 @@ import sys
 
 
 ################# YOUR CODE HERE #################
-word_prev = "-1"
+word_prev = None
 total_count = 0
 
 # stream over lines from Standard Input
@@ -30,18 +30,14 @@ for line in sys.stdin:
     word, count  = line.split()
     # print(f"line: {word} {count}")
    
-    if total_count == 0:
-        # if this is the first word
-        # set the first line to the tracked word & count
-        word_prev = word
-        total_count = int(count)
-    elif word == word_prev:
+    if word == word_prev:
         # if the same word, add to count
         word_prev = word
         total_count += int(count)
     else:
-        # if new word, emit previous word & count
-        print("{}\t{}".format(word_prev, total_count))
+        # if previous word exists, emit previous word & count
+        if word_prev:
+            print("{}\t{}".format(word_prev, total_count))
         
         # set new word_prev and total_count
         word_prev = word
