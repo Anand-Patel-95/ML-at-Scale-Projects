@@ -68,7 +68,6 @@ for datachunk in $data.chunk.*; do
     
     ./$mapper  < $datachunk | sort -k1,1 > $datachunk.counts &
     
-    # sort -k1,1 $datachunk | ./$mapper > $datachunk.counts &
     ################# (END YOUR CODE)###########
     
 done
@@ -100,7 +99,10 @@ if [ $# -eq 4 ]
     # pipe to the reducer script, and redirect to 
     # output file
     
-    sort -k1,1 $countfiles | ./$reducer > $data.output
+    # since the files listed by countfiles are sorted already in step 2
+    # we specify the -m command to merge them (we did merge sort)
+    
+    sort -m -k1,1 $countfiles | ./$reducer > $data.output
 
     ################# (END YOUR CODE)###########
 fi
