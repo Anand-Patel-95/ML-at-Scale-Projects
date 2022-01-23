@@ -50,17 +50,75 @@ import os
 
 #################### YOUR CODE HERE ###################
 
+# get the number of reducers from environment variable
+N = int(os.getenv('mapreduce_job_reduces', default=1))
+
+# helper function
+def makeKeyHash(key, num_reducers = N):
+    """
+    Mimic the Hadoop string-hash function.
+    
+    key             the key that will be used for partitioning
+    num_reducers    the number of reducers that will be configured
+    """
+    byteof = lambda char: int(format(ord(char), 'b'), 2)
+    current_hash = 0
+    for c in key:
+        current_hash = (current_hash * 31 + byteof(c))
+    return current_hash % num_reducers
 
 
+# helper function
+def getPartitions(num_reducers = N):
+    """
+    Args:   number of reducers
+    Returns:    partition_keys (sorted list of strings)
+                
+    """
+    # use the first N uppercase letters as custom partition keys, where N is number of reducers
+    KEYS = list(map(chr, range(ord('A'), ord('Z')+1)))[:num_reducers]
+    partition_keys = sorted(KEYS, key=lambda k: makeKeyHash(k,num_reducers))
+
+    return partition_keys
+
+# make the parition keys
+pKeys = getPartitions(N)
+
+# initialize totals counters for:
+# ham, spam docs
+docTotalCount = np.array([0,0])
+# ham, spam words
+wordTotalCount = np.array([0,0])
+
+# read lines and tally
+for line in sys.stdin: 
+    # parse input
+    docID, _class, subject, body = line.lower().split('\t')
+    # tokenize
+    words = re.findall(r'[a-z]+', subject + ' ' + body)
+    
+    # increment the totals & set partial counts based on this class
+    # if ham...
+    if _class == '0':
+        docTotalCount[0] += 1                             # add this document to ham docs seen
+        wordTotalCount[0] += len(words)                   # add all the words in this doc to the total number of ham words
+        class0_partialCount, class1_partialCount  = (1,0) # all the words in this doc will have +1 for ham
+    # if spam...
+    else:
+        docTotalCount[1] += 1
+        wordTotalCount[1] += len(words)
+        class0_partialCount, class1_partialCount  = (0,1)
+        
+    # go through words and print 
+    for word in words:
+        traced_key = pKeys[makeKeyHash(word, N)]
+        print(f"{traced_key}\t{word}\t{class0_partialCount},{class1_partialCount}")
 
 
-
-
-
-
-
-
-
+# emit totals with special key (order inversion) to all reducers specified by partition keys 
+for pk in pKeys:
+    print(f"{pk}\t*docTotalCount\t{docTotalCount[0]},{docTotalCount[1]}")
+    print(f"{pk}\t*wordTotalCount\t{wordTotalCount[0]},{wordTotalCount[1]}")
 
 
 
