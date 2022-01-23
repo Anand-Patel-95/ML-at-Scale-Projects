@@ -52,8 +52,19 @@ for line in sys.stdin:
     ################# YOUR CODE HERE ################
     # TIP: try using MODEL.get(word, (0,0)) to access the tuple 
     # of log probabilities without throwing a KeyError!
+    
+    # get the priors tuple
+    logpHam, logpSpam = MODEL.get("ClassPriors", (0,0))
+    
+    # go through all the words and sum the log probabilities of the words in doc
+    
+    for word in words:
+        logpHam += MODEL.get(word, (0,0))[0]
+        logpSpam += MODEL.get(word, (0,0))[1]
+    
 
-
+    # predict the class with the greater logp probability
+    pred_class = np.argmax([logpHam, logpSpam])  
 
 
 
