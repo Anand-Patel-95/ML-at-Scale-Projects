@@ -39,24 +39,47 @@ for line in sys.stdin:
     
     # then compute evaluation stats
 #################### YOUR CODE HERE ###################
+    if class_ == "1":
+        # actually positive
+        if class_ == pred:
+            TP += 1 # correctly predicted true positive
+        else:
+            FN += 1 # incorrectly predicted negative
+    else:
+        # actually negative
+        if class_ == pred:
+            TN += 1 # correctly predicted true negative
+        else:
+            FP += 1 # incorrectly predicted positive
 
 
+# Print the counts
+print(f"# Documents:\t{FP+FN+TP+TN}")
+print(f"True Positives:\t{TP}")
+print(f"True Negatives:\t{TN}")
+print(f"False Positives:\t{FP}")
+print(f"False Negatives:\t{FN}")
 
 
+# Calculate and print the summary statistics
 
+Accuracy = (TP + TN)/(FP+FN+TP+TN)
+Precision = TP / (TP + FP)
+Recall = TP / (TP + FN)
 
+if TP != 0:
+    Precision = TP / (TP + FP)
+    Recall = TP / (TP + FN)
+    F_score = TP / (TP + 0.5*(FP + FN))
+else:
+    Precision = 0
+    Recall = 0
+    F_score = 0
 
-
-
-
-
-
-
-
-
-
-
-
+print(f"Accuracy\t{Accuracy}")
+print(f"Precision\t{Precision}")
+print(f"Recall\t{Recall}")
+print(f"F-Score\t{F_score}")
 
 
 
