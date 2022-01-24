@@ -63,35 +63,4 @@ print(f"ClassPriors\t{docTotalCount[0]},{docTotalCount[1]},{ClassPriors[0]},{Cla
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ##################### (END) CODE HERE ####################
