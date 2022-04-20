@@ -34,3 +34,7 @@ A repo for Anand Patel's HW assignments for MIDS W261, Spring 2022. Consists of 
 - HW4: Portugese wine dataset from UC Irvine. Predicting wine quality score using OLS Regression with Lasso and Ridge Regularization.
     - [HW4 Notebook](https://github.com/Anand-Patel-95/ML-at-Scale-Projects/blob/main/Assignments/HW4/docker/student/hw4_Workbook.ipynb)
     - Using PySpark.
+
+
+---
+Cloned from [my repo in UC Berkeley](https://github.com/UCB-w261/w261-s22-Anand-Patel-95).
